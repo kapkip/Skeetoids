@@ -1,6 +1,6 @@
 #=
 Since VSCode debugger does not want to help:
-Use @Infiltrate macro to help
+Use @Infiltrate to help
 
     EXAMPLE
 using Infiltrator
