@@ -1,12 +1,24 @@
+# geography.jl
+
 using GLMakie
 
-# Define static water nodes (breeding sites)
+# 1. Define a struct to track the pools
+mutable struct BreedingSite
+    pos::Point2f
+    count::Int
+    capacity::Int
+end
+
+# 2. Update your global nodes
 const WATER_NODES = [
-    Point2f(200.0, 300.0),  # Node 1: Left-center
-    Point2f(600.0, 450.0)   # Node 2: Top-right
+    BreedingSite(Point2f(300.0, 800.0), 0, 150),
+    BreedingSite(Point2f(1300.0, 400.0), 0, 150),
+    BreedingSite(Point2f(800.0, 600.0), 0, 150)
 ]
 
-# Helper function to overlay the water nodes onto the simulation axis
+# 3. Update your helper function to handle the struct
 function render_water!(ax)
-    scatter!(ax, WATER_NODES, markersize=25, color=:cyan, marker=:circle)
+    # Extract just the positions for scatter!
+    positions = [node.pos for node in WATER_NODES]
+    scatter!(ax, positions, markersize=35, color=:cyan, marker=:circle)
 end
