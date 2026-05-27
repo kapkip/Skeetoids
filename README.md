@@ -9,7 +9,7 @@ This project serves as a functional proof-of-concept and a sandbox for learning 
 ## The Core Concept
 Traditional epidemiological models often look at populations as static. This framework is a dynamic approach that captures the emergent properties of vector populations by simulating individual biological feedback loops in a continuous spatial environment.
 
-Instead of reinventing physics, the agents are built on a modified Boids flocking algorithm tweaked so that instead of just grouping together like birds, they act like more of a decentralized swarm reacting dynamically to their surroundings.
+Instead of reinventing all the physics, the agents are built on a modified Boids flocking algorithm tweaked so that instead of just grouping together like birds, they act like more of a decentralized swarm reacting dynamically to their surroundings.
 
 This framework couples a multi-agent system with localized resource grids to explore how micro-environmental factors, like breeding pools and host availability, influence vector distribution and foraging efficiency.
 
@@ -18,7 +18,7 @@ The insects navigate the environment based on three shifting priorities:
 
 :seeking_host – Foraging flight patterns driven by a random walk, searching for a blood meal.
 
-:digesting – A post-feed metabolic rest phase governed by internal countdown timers.
+:digesting – A post-feed rest phase governed by internal countdown timers.
 
 :seeking_water – A survival mode triggered when internal hydration thresholds drop, overriding other behaviors and forcing flight vectors toward the nearest aquatic resource grid coordinates.
 
@@ -36,7 +36,7 @@ What's Working Now:
 ## Features Coming Soon (hopefully):
 - CO2 Pathing: Implementing a dynamic chemical plume/gradient matrix so agents can actively track hosts via simulated carbon dioxide paths rather than just random luck.
 
-- Parameter Calibration: Parameter Calibration: Tuning behavioral and spatial parameters to reflect dynamics supported by the scientific literature.
+- Parameter Calibration: Tuning behavioral and spatial parameters to reflect dynamics supported by the scientific literature.
 
 - Geospatial Data Logic: Exploring how to format the grid so it can theoretically ingest standard raster data (like GeoTIFFs), focusing purely on the data architecture rather than mapping a specific, literal location.
 
