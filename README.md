@@ -24,7 +24,7 @@ The insects navigate the environment based on three shifting priorities:
 
 ## Project Status & Next Steps
 
-This repository is an active, work-in-progress. Because it doubles as a deep-dive learning script for Julia, the codebase contains notes, and active debugging loops and other messiness.
+This repository is an active, work-in-progress. Because it doubles as a deep-dive learning environment for Julia, the codebase contains notes,  active debugging loops, and other messiness.
 
 What's Working Now:
 - A real-time, hardware-accelerated swarm rendering via `GLMakie`.
@@ -36,7 +36,7 @@ What's Working Now:
 ## Features Coming Soon (hopefully):
 - CO2 Pathing: Implementing a dynamic chemical plume/gradient matrix so agents can actively track hosts via simulated carbon dioxide paths rather than just random luck.
 
-- Parameter Calibration: Tuning flight speeds, hydration decay rates, and swarm sensory radii against empirical bioassay data.
+- Parameter Calibration: Parameter Calibration: Tuning behavioral and spatial parameters to reflect dynamics supported by the scientific literature.
 
 - Geospatial Data Logic: Exploring how to format the grid so it can theoretically ingest standard raster data (like GeoTIFFs), focusing purely on the data architecture rather than mapping a specific, literal location.
 
