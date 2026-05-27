@@ -1,6 +1,6 @@
 #=
-Since VSCode debugger does not want to help:
-Use @Infiltrate to help
+Since VSCode debugger can be unhelpful at times:
+Use @Infiltrate to identify issues
 
     EXAMPLE
 using Infiltrator
@@ -45,7 +45,7 @@ How to tell if Revise successfully grabbed your changes:
     should pop up in terminal
 
 
-ALSO SINCE YOU'RE a NOOB:
+ALSO SINCE YOU'RE a NOOB here's the silliest guide ever to demonstrate "end":
 
 function update_biology!(boids, water_nodes, width, height)  # 1. Opens Function
     for b in boids                                           # 2. Opens Loop

@@ -1,22 +1,17 @@
 ## ------------------------------------------------------------------
 #  SECTION 1: ENVIRONMENT SETUP & DEPENDENCIES
 #  Initializes native high-performance graphics and utilities.
-## ------------------------------------------------------------------
+
 using Revise
 using GLMakie
 using Random
 using LinearAlgebra
 include(joinpath(@__DIR__, "geography.jl"))
-println("Dependencies successfully loaded. Engine is primed!")
+println("Dependencies successfully loaded. Ready to go!")
 
-## ------------------------------------------------------------------
+## ------------------------------------------------------------------#
 #  SECTION 2: AGENT DEFINITIONS & INITIALIZATION
 #  Defines the individual structural blueprint for the vectors.
-## ------------------------------------------------------------------
-# 1. Define distinct biological states using integers or symbols
-# :seeking_host -> Look for blood meal
-# :digesting    -> Rest and develop eggs
-# :seeking_water -> Find cyan pools to lay eggs
 
 mutable struct Boid # setting up position, direction, velocity
     x::Float64
@@ -32,19 +27,19 @@ function init_boids(n::Int, width=800.0, height=600.0; seed=42)
     rng = Xoshiro(seed)
     speed = 2.0
     [Boid(
-        rand(rng) * width,              # 1. x spawning within bounds
-        rand(rng) * height,             # 2. y
-        (rand(rng) - 0.5) * speed * 2,  # 3. vx between -2.0-2.0
-        (rand(rng) - 0.5) * speed * 2,  # 4. vy
-        :seeking_host,                  # 5. state: they all start hungry
-        0                               # 6. timer 
+        rand(rng) * width,              # x spawning within bounds
+        rand(rng) * height,             # y
+        (rand(rng) - 0.5) * speed * 2,  # vx between -2.0-2.0
+        (rand(rng) - 0.5) * speed * 2,  # vy
+        :seeking_host,                  # state: they all start hungry
+        0                               # timer starts at zero
     ) for _ in 1:n]
 end
 
 ## ------------------------------------------------------------------
 #  SECTION 3: STEERING CORE & BEHAVIORAL RULES
 #  The mathematical laws governing emergent swarming dynamics.
-## ------------------------------------------------------------------
+
 const MAX_SPEED = 2.0
 const MIN_SPEED = 0.2
 const SEP_RADIUS = 15.0  # <-- Changed from 25.0 to 15.0 for tighter mosquito spacing
@@ -82,15 +77,20 @@ function clamp_speed!(b::Boid)
         b.vy *= MIN_SPEED / s
     end
 end
-
+## -------
 # Coding the Biological clock
-#-------
+
+# Define distinct biological states
+# :seeking_host -> Look for blood meal
+# :digesting    -> Rest and develop eggs
+# :seeking_water -> Find cyan pools to lay eggs
+
 function update_biology!(boids, water_nodes, width, height)
     for b in boids
         b.timer += 1 # Every frame, time moves forward
 
         # STATE 1: Looking for a host
-        if b.state == :seeking_host #for today we'll just assume this is random
+        if b.state == :seeking_host #assuming this is random for this sim
             if rand() < 0.0008 #changed from 0.002
                 b.state = :digesting
                 b.timer = 0
@@ -107,8 +107,7 @@ function update_biology!(boids, water_nodes, width, height)
                 end
             end # this little end took me 8000 years to find
 
-        # STATE 3: Ready to lay eggs!
-        # --- BULLETPROOF WATER SEEKING ---
+        # STATE 3: Water Seeking and Ready to lay eggs!
         elseif b.state == :seeking_water
             # Check if WATER_NODES actually exists and has items
             if @isdefined(WATER_NODES) && !isempty(WATER_NODES)
@@ -132,8 +131,7 @@ function update_biology!(boids, water_nodes, width, height)
         end
     end
 end
-#------
-
+## ------
 
 function update_boids!(boids, w_sep, w_ali, w_coh, radius, bounce, width, height)
     n = length(boids)
@@ -186,8 +184,9 @@ function update_boids!(boids, w_sep, w_ali, w_coh, radius, bounce, width, height
             fy += w_coh * (coh_y / n_coh - b.y) * 0.01
         end
 
-        # --- OPTIMIZED WATER ATTRACTION FORCE ---
-        # --- UPDATED WATER ATTRACTION FORCE ---
+        # ------------------------------------- 
+        # OPTIMIZED WATER ATTRACTION FORCE
+
         if b.state == :seeking_water
             best_dist = Inf
             target_dx = 0.0
@@ -256,7 +255,7 @@ end
 ## ------------------------------------------------------------------
 #  SECTION 4: GRAPHICS INTERFACE & SIMULATION CANVAS
 #  Launches the interactive dashboard window natively.
-## ------------------------------------------------------------------
+
 
 # 1. Initialize stable global state
 #global_boids = init_boids(500, 1600.0, 1200.0)
@@ -294,13 +293,13 @@ end
 # 5. Connect tracking states
 positions = Observable(Point2f[(b.x, b.y) for b in global_boids])
 
-# NEW: Track the biological state colors instead of vector angles
+# Track the biological state colors instead of default vector angles
 b_colors = Observable(Symbol[state_color(b.state) for b in global_boids])
 
-# SWAPPED: 'color' now points to b_colors, and we dropped the colormap/colorrange
+# Color
 scatter!(ax, positions, markersize=8, color=b_colors)
 
-# Pull the layout directly from our geography engine
+# Pull the layout directly from the geography engine
 render_water!(ax)
 
 # 6. Extract raw values from reactive UI elements
@@ -314,11 +313,11 @@ display(fig)
 
 ## ------------------------------------------------------------------
 #  SECTION 5: LIVE ANIMATION RUNNER
-## ------------------------------------------------------------------
+
 println("Starting animation loop...")
 
 # The @async makes this run in the background so it doesn't block the UI
-@async begin # <--- FIX 2: Removed stray '@Pro' typo
+@async begin
     # This loop keeps the animation running
     while isopen(fig.scene)
 
@@ -340,7 +339,7 @@ println("Starting animation loop...")
         sleep(0.016)
     end
     println("Animation loop stopped.")
-end # <--- FIX 3: Added missing 'end' for the async begin block
+end
 
 
 #=Terminal commands for fun:
@@ -413,7 +412,7 @@ Check its stats:
 Make it an ultra-fast rogue mosquito traveling diagonally:
     global_boids[1].vx = 5.0; global_boids[1].vy = 5.0;
 
-    Pro-Tip for Terminal Chaos:
+    Pro-Tip for Terminal Weirdness:
 If you type a command and nothing changes on your screen immediately, 
 it means GLMakie is waiting for the next frame draw. 
     Just run a quick notify(positions) or let the live loop step forward once, 
