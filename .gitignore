@@ -1,0 +1,12 @@
+# Ignore hidden OS garbage
+.DS_Store
+Thumbs.db
+
+# Ignore local Julia compilation caches
+.julia/
+compiled/
+*.jl.cov
+*.jl.mem
+
+# Ignore local IDE settings
+.vscode/
