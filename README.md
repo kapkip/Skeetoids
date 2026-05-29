@@ -24,14 +24,18 @@ The insects navigate the environment based on three shifting priorities:
 
 ## Project Status & Next Steps
 
-This repository is an active, work-in-progress. Because it doubles as a deep-dive learning environment for Julia, the codebase contains notes,  active debugging loops, and other messiness.
+This repository is a functional and evolving work. Because it doubles as a personal learning environment for Julia, the codebase may contain notes-to-self, active debugging loops, and other minor messinessess.
 
-What's Working Now:
-- A real-time, hardware-accelerated swarm rendering via `GLMakie`.
+## What's Working Now:
+- A real-time, hardware-accelerated swarm rendering via `GLMakie` with live sliders for parameter manipulation.
 
 - An asynchronous pipeline (@async) that keeps the physics loops from locking up the graphics.
 
 - A fully operational three-tier interactive behavioral state machine.
+
+- Integrated an environmental vector layer that exerts a local pull on swarm trajectories, successfully drawing agents toward water sources.
+
+- Contextual color mapping is fully live, shifting agent shaders dynamically to visually expose real-time changes in internal behavioral states.
 
 ## Features Coming Soon (hopefully):
 - CO2 Pathing: Implementing a dynamic chemical plume/gradient matrix so agents can actively track hosts via simulated carbon dioxide paths rather than just random luck.
@@ -39,5 +43,7 @@ What's Working Now:
 - Parameter Calibration: Tuning behavioral and spatial parameters to reflect dynamics supported by the scientific literature.
 
 - Geospatial Data Logic: Exploring how to format the grid so it can theoretically ingest standard raster data (like GeoTIFFs), focusing purely on the data architecture rather than mapping a specific, literal location.
+
+- Minor refactor: Migrating Behavior logic to separate module to improve legibility and reflect best practices.
 
 - Publishing: Eventually deploying the simulation online (maybe using `bonito.jl`), making it easy for people to interact with the swarm in a browser without needing a local Julia setup. 
